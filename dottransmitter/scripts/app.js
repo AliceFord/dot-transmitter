@@ -259,7 +259,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function setupLineCounter() {
         var lineText = document.createElement('p');
         lineText.id = "lineCount";
-        lineText.innerHTML = "Available Lines: 10";
+        lineText.innerHTML = "Available Lines: 4";
         lineText.style.top = "0px";
         lineText.style.left = window.innerWidth*3 / 4 - 40 + "px";
         lineText.style.position = "absolute";
