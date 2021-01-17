@@ -10,6 +10,18 @@
     border: 1px solid red;
     position: absolute;
     text-align: center;
+    padding-left: 0px;
+}
+
+.gameSpeedButton {
+    color: white;
+    border-color: red;
+    background-color: red;
+    height: 20px;
+    width: 30px;
+    position: absolute;
+    text-align: start;
+    padding-left: 0px;
 }
 
 .mainCanvasContainer {

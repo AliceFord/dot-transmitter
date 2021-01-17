@@ -18,8 +18,9 @@ My idea for a train game.
 - [ ] Make some stations have a reward for visiting them
 - [x] Make the ends boxes instead of dots
 - [x] Add the ability to remove lines 
-- [ ] Add static vs random levels
+- [x] Add static vs random levels
 - [ ] Gold, silver, bronze, fail timers.
+- [x] Skip timer
 
 
 ## .trg file type

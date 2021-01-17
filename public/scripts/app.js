@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
     var currentSelectedStation = null
     var flag = false;
     var paper = Raphael(0, 0, window.innerWidth, window.innerHeight);
-    var gameSpeed = 0.25;
+    var gameSpeed = 3;
     var totalAvailablePoints = 0;
     var startTime;
     const spawnTimer = 40; // In 1/100s
@@ -297,7 +297,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         for (let i=0;i<parseInt(lineData[1]);i++) {
             let currentLine = lineData[i+2].split(" ");
-            createButton(currentLine[2], currentLine[1], 30, 30, "circleButton", currentLine[0]);
+            createButton(currentLine[1]-15, currentLine[2]-15, 30, 30, "circleButton", currentLine[0]);
         }
     }
     
@@ -317,11 +317,33 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    function gameSpeedButtonClicked(speed) {
+        gameSpeed = speed;
+    }
+
+    function createGameSpeedButton(x, y, speed, onclickCallback) {
+        let button = document.createElement("button");
+        button.textContent = speed + "x";
+        button.className = "gameSpeedButton"
+        button.style.top = y + "px";
+        button.style.left = x + "px";
+        button.addEventListener('click', onclickCallback)
+        document.body.appendChild(button);
+    }
+
+    function setupGameSpeedBar() {
+        createGameSpeedButton(window.innerWidth / 4, 20, 1, function() {gameSpeedButtonClicked(1)});
+        createGameSpeedButton(window.innerWidth / 4 + 29, 20, 2, function() {gameSpeedButtonClicked(2)});
+        createGameSpeedButton(window.innerWidth / 4 + 57, 20, 5, function() {gameSpeedButtonClicked(5)});
+        createGameSpeedButton(window.innerWidth / 4 + 85, 20, 10, function() {gameSpeedButtonClicked(10)});
+    }
+
     function setup() {
         loadAndSetupButtons();
         setupDividers();
         setupTimer();
         setupLineCounter();
+        setupGameSpeedBar();
         foundGameSpeed = parseFloat(findGetParameter("gameSpeed"));
         if (foundGameSpeed < 0.5 || Number.isInteger(foundGameSpeed)) {
             gameSpeed = parseFloat(foundGameSpeed);
@@ -334,3 +356,4 @@ document.addEventListener("DOMContentLoaded", () => {
     
     setup();
 })
+// 1536 760
