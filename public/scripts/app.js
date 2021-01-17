@@ -271,7 +271,54 @@ document.addEventListener("DOMContentLoaded", () => {
         paper.path(["M", 9/10 * window.innerWidth, 0, "L", 9/10 * window.innerWidth, window.innerHeight]).attr({"stroke-width": 5, "stroke": "grey"})
     }
 
+    function createButton(x, y, width, height, className, value) {
+        let button = document.createElement("button");
+        button.textContent = value;
+        totalAvailablePoints += parseInt(value);
+        button.className = className;
+        button.style.color = "white";
+        button.style.background = "red";
+        button.style.height = height + "px";
+        button.style.width = width + "px";
+        button.style.top = y + "px";
+        button.style.left = x + "px";
+        button.addEventListener('click', function(event) { stationButtonClicked.call(this); })
+        document.body.appendChild(button);
+    }
+
+    function parseAndDrawLevelData(data) {
+        let lineData = data.replace(/\r/g, "").split(/\n/);
+
+        // Starting divider
+        createButton(0, 0, 20, window.innerHeight, "startEndBarrier", lineData[0]);
+
+        // Ending divider
+        createButton(window.innerWidth-20, 0, 20, window.innerHeight, "startEndBarrier", 0);
+
+        for (let i=0;i<parseInt(lineData[1]);i++) {
+            let currentLine = lineData[i+2].split(" ");
+            createButton(currentLine[2], currentLine[1], 30, 30, "circleButton", currentLine[0]);
+        }
+    }
+    
+    function loadAndSetupButtons() {
+        try {  // Load level data, or use random dots.
+            parseAndDrawLevelData(document.getElementById("leveldata").innerHTML);
+        } catch (TypeError) {
+            // Starting divider
+            createButton(0, 0, 20, window.innerHeight, "startEndBarrier", 10);
+
+            // Ending divider
+            createButton(window.innerWidth-20, 0, 20, window.innerHeight, "startEndBarrier", 0);
+
+            for (let i=1;i<=10;i++) {  // Intermediary Buttons
+                createButton(Math.floor(Math.random() * (window.innerWidth * 8/10)) + window.innerHeight * 1/10, Math.floor(Math.random() * (window.innerHeight - 25)), 30, 30, "circleButton", 5);
+            }
+        }
+    }
+
     function setup() {
+        loadAndSetupButtons();
         setupDividers();
         setupTimer();
         setupLineCounter();
@@ -280,46 +327,6 @@ document.addEventListener("DOMContentLoaded", () => {
             gameSpeed = parseFloat(foundGameSpeed);
         } else {
             console.log(`Invalid game speed '${foundGameSpeed}'.`);  
-        }
-
-        // Starting divider
-        let button = document.createElement("button");
-        button.textContent = "10";
-        totalAvailablePoints += 10;
-        button.className = "startEndBarrier";
-        button.style.color = "white";
-        button.style.background = "red";
-        button.style.height = window.innerHeight + "px";
-        button.style.width = 20 + "px";
-        button.style.top = 0 + "px";
-        button.style.left = 0 + "px";
-        button.addEventListener('click', function(event) { stationButtonClicked.call(this); })
-        document.body.appendChild(button);
-
-        // Ending divider
-        button = document.createElement("button");
-        button.textContent = "0";
-        button.className = "startEndBarrier";
-        button.style.color = "white";
-        button.style.background = "red";
-        button.style.height = window.innerHeight + "px";
-        button.style.width = 20 + "px";
-        button.style.top = 0 + "px";
-        button.style.left = window.innerWidth-20 + "px";
-        button.addEventListener('click', function(event) { stationButtonClicked.call(this); })
-        document.body.appendChild(button);
-
-        for (let i=1;i<=10;i++) {  // Intermediary Buttons
-            button = document.createElement("button");
-            button.textContent = "5";
-            totalAvailablePoints += 5;
-            button.className = "circleButton";
-            button.style.color = "white";
-            button.style.background = "red";
-            button.style.top = Math.floor(Math.random() * (window.innerHeight - 25))  + "px";
-            button.style.left = Math.floor(Math.random() * (window.innerWidth * 8/10)) + window.innerHeight * 1/10 + "px";
-            button.addEventListener('click', function(event) { stationButtonClicked.call(this); })
-            document.body.appendChild(button);
         }
         
         gameLoop();
