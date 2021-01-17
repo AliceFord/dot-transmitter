@@ -1,0 +1,25 @@
+{
+  "name": "js-train-game",
+  "version": "1.0.0",
+  "description": "A game about transferring points from one side to another.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Not implemented\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TechieHelper/js-train-game.git"
+  },
+  "keywords": [
+    "javascript"
+  ],
+  "author": "TechieHelper",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TechieHelper/js-train-game/issues"
+  },
+  "homepage": "https://github.com/TechieHelper/js-train-game#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
