@@ -9,8 +9,20 @@ document.addEventListener("DOMContentLoaded", () => {
     var gameSpeed = 3;
     var totalAvailablePoints = 0;
     var startTime;
+    var gold=-1, silver=-1, bronze=-1, fail=-1;
     const spawnTimer = 40; // In 1/100s
     const buttonSizeModifier = 1;
+
+    String.prototype.toMMSS = function () {
+        var sec_num = parseInt(this, 10); // don't forget the second param
+        var hours   = Math.floor(sec_num / 3600);
+        var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+        var seconds = sec_num - (hours * 3600) - (minutes * 60);
+    
+        if (minutes < 10) {minutes = "0"+minutes;}
+        if (seconds < 10) {seconds = "0"+seconds;}
+        return minutes+':'+seconds;
+    }
 
     function* driveTrain(train) {
         if (parseInt(lines[train][1].textContent) > 0) {
@@ -41,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
             } else {
                 if (parseInt(lines[train][2].textContent) === totalAvailablePoints) {
                     var timeNow = performance.now();
-                    alert("Level completed! Hours: " + Math.floor((timeNow - startTime)/3600000) + ", Minutes: " + Math.floor((timeNow - startTime)/60000) + ", Seconds: " + Math.floor((timeNow - startTime)/1000) + ", Milliseconds: " + Math.floor(timeNow - startTime));
+                    alert("Level completed! Time: " + ((timeNow - startTime) / 1000).toString().toMMSS());
                 }
             }
             return train;
@@ -235,14 +247,55 @@ document.addEventListener("DOMContentLoaded", () => {
         let timer = document.getElementById('timer')
         let minutes = parseInt(timer.innerHTML.substr(0, 2));
         let seconds = parseInt(timer.innerHTML.substr(3, 5));
-        if (seconds < 60) {
+        if (seconds < 59) {
             timer.innerHTML = minutes.toString().padStart(2, '0') + ":" + (seconds+1).toString().padStart(2, '0');
         } else {
             timer.innerHTML = (minutes+1).toString().padStart(2, '0') + ":00";
         }
+        let failText = `${Math.floor(fail/60).toString().padStart(2, '0')}:${(fail%60).toString().padStart(2, '0')}`
+        if (timer.innerHTML === failText) {
+            alert("You failed!");
+            window.location.reload();
+        }
     }
 
     function setupTimer() {
+        if (gold !== -1) {
+            var text = document.createElement('p');
+            text.id = "gold";
+            text.innerHTML = `Gold: ${gold.toString().toMMSS()}`;
+            text.style.top = "0px";
+            text.style.left = window.innerWidth / 2 + "px";
+            text.style.position = "absolute";
+            document.body.appendChild(text);
+        }
+        if (silver !== -1) {
+            var text = document.createElement('p');
+            text.id = "silver";
+            text.innerHTML = `Silver: ${silver.toString().toMMSS()}`;
+            text.style.top = "20px";
+            text.style.left = window.innerWidth / 2 + "px";
+            text.style.position = "absolute";
+            document.body.appendChild(text);
+        }
+        if (bronze !== -1) {
+            var text = document.createElement('p');
+            text.id = "bronze";
+            text.innerHTML = `Bronze: ${bronze.toString().toMMSS()}`;
+            text.style.top = "40px";
+            text.style.left = window.innerWidth / 2 + "px";
+            text.style.position = "absolute";
+            document.body.appendChild(text);
+        }
+        if (fail !== -1) {
+            var text = document.createElement('p');
+            text.id = "fail";
+            text.innerHTML = `Fail: ${fail.toString().toMMSS()}`;
+            text.style.top = "60px";
+            text.style.left = window.innerWidth / 2 + "px";
+            text.style.position = "absolute";
+            document.body.appendChild(text);
+        }
         startTime = performance.now();
         var text = document.createElement('p');
         text.id = "timer";
@@ -299,6 +352,10 @@ document.addEventListener("DOMContentLoaded", () => {
             let currentLine = lineData[i+2].split(" ");
             createButton(currentLine[1]-15, currentLine[2]-15, 30, 30, "circleButton", currentLine[0]);
         }
+        gold = lineData[parseInt(lineData[1])+2];
+        silver = lineData[parseInt(lineData[1])+3];
+        bronze = lineData[parseInt(lineData[1])+4];
+        fail = lineData[parseInt(lineData[1])+5];
     }
     
     function loadAndSetupButtons() {

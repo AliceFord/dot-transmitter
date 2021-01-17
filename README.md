@@ -27,3 +27,7 @@ My idea for a train game.
 Starting_points
 Number_of_circles
 Number_of_points x_pos y_pos
+Gold_time
+Silver_time
+Bronze_time
+Fail_time
