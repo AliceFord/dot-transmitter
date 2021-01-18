@@ -106,15 +106,39 @@ document.addEventListener("DOMContentLoaded", () => {
                     path.push([currentPosX, currentPosY-1]);
                 }
             }
-            lines.push([path, b1, b2]);
-            trainTimers.push(1);
             var linePath = ["M", b1y, b1x];
             for (let i=1;i<path.length;i++) {
                 linePath.push("L", path[i-1][1]+11, path[i-1][0]+11);
             }
             const thisTimerIndex = trainTimers.length-1;
+
+            let width = "5px", strokeColor = "#f00";
+            lines.forEach(line => {
+                let counter = 0;
+                if (line[0].length == path.length) {
+                    for (let i=0;i<line[0].length;i++) {
+                        let temp = 0;
+                        for (let j=0;j<2;j++) {
+                            if (line[0][i][j] === path[i][j]) {
+                                temp++;
+                            }
+                        }
+                        if (temp===2) {
+                            counter++;
+                        }
+                    }
+                    if (counter==line[0].length) {
+                        width = "10px";
+                        strokeColor = "#ff0";
+                    }
+                }
+            });
+
+            lines.push([path, b1, b2]);
+            trainTimers.push(1);
+
             paper.path(linePath)
-                .attr({"stroke": "#f00", "stroke-width": "5px"})
+                .attr({"stroke": strokeColor, "stroke-width": width})
                 .click((
                     function() {
                         removeLine(this, thisTimerIndex );
@@ -158,15 +182,40 @@ document.addEventListener("DOMContentLoaded", () => {
                     path.push([b2x, currentPosY-1]);
                 }
             }
-            lines.push([path, start, button]);
-            trainTimers.push(1);
+            
             var linePath = ["M", b1y, b2x];
             for (let i=1;i<path.length;i++) {
                 linePath.push("L", path[i-1][1]+11, path[i-1][0]+11);
             }
             const thisTimerIndex = trainTimers.length-1;
+
+            let width = "5px", strokeColor = "#f00";
+            lines.forEach(line => {
+                let counter = 0;
+                if (line[0].length == path.length) {
+                    for (let i=0;i<line[0].length;i++) {
+                        let temp = 0;
+                        for (let j=0;j<2;j++) {
+                            if (line[0][i][j] === path[i][j]) {
+                                temp++;
+                            }
+                        }
+                        if (temp===2) {
+                            counter++;
+                        }
+                    }
+                    if (counter==line[0].length) {
+                        width = "10px";
+                        strokeColor = "#ff0";
+                    }
+                }
+            });
+
+            lines.push([path, start, button]);
+            trainTimers.push(1);
+
             paper.path(linePath)
-                .attr({"stroke": "#f00", "stroke-width": "5px"})
+                .attr({"stroke": strokeColor, "stroke-width": width})
                 .click((
                     function() {
                         removeLine(this, thisTimerIndex);
@@ -191,15 +240,40 @@ document.addEventListener("DOMContentLoaded", () => {
                     path.push([b2x, currentPosY-1]);
                 }
             }
-            lines.push([path, button, end]);
-            trainTimers.push(1);
+
             var linePath = ["M", b1y, b2x];
             for (let i=1;i<path.length;i++) {
                 linePath.push("L", path[i-1][1]+11, path[i-1][0]+11);
             }
             const thisTimerIndex = trainTimers.length-1;
+
+            let width = "5px", strokeColor = "#f00";
+            lines.forEach(line => {
+                let counter = 0;
+                if (line[0].length == path.length) {
+                    for (let i=0;i<line[0].length;i++) {
+                        let temp = 0;
+                        for (let j=0;j<2;j++) {
+                            if (line[0][i][j] === path[i][j]) {
+                                temp++;
+                            }
+                        }
+                        if (temp===2) {
+                            counter++;
+                        }
+                    }
+                    if (counter==line[0].length) {
+                        width = "10px";
+                        strokeColor = "#ff0";
+                    }
+                }
+            });
+
+            lines.push([path, start, button]);
+            trainTimers.push(1);
+
             paper.path(linePath)
-                .attr({"stroke": "#f00", "stroke-width": "5px"})
+                .attr({"stroke": strokeColor, "stroke-width": width})
                 .click((
                     function() {
                         removeLine(this, thisTimerIndex);

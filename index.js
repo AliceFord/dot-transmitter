@@ -16,10 +16,12 @@ app.get('/', function(req, res) {
     res.render(path.join(__dirname + "/pages/index.html"))
 });
 
-app.get('/level1', function(req, res) {
-    fs.readFile(path.join(__dirname + "/savegames/level1.trg"), 'utf8', function(err, data) {
-        res.render(path.join(__dirname + "/pages/level1.html"), {data:data});
+for (let i=1;i<=1;i++) {
+    app.get(`/level${i}`, function(req, res) {
+        fs.readFile(path.join(__dirname + `/savegames/level${i}.trg`), 'utf8', function(err, data) {
+            res.render(path.join(__dirname + `/pages/levels.html`), {data:data});
+        });
     });
-});
+}
 
 app.listen(PORT);
